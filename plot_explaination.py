@@ -50,7 +50,7 @@ def plot(args):
 
     print("Start Ploting")
     print(
-        " If sequence's name has '|' inside,",
+        " If a transcript name has '|' inside,",
         "it will automatically replace by '_' to prevent file name error.",
     )
     count = 1
@@ -86,7 +86,7 @@ if __name__ == "__main__":
     tf.compat.v1.disable_v2_behavior()
 
     parser = argparse.ArgumentParser(
-        description="Predict sequences from a input FASTA file"
+        description="Plot explanation results from a input FASTA file"
     )
     parser.add_argument("-i", "--input", help="Input FASTA file", required=True)
     parser.add_argument("-o", "--output", help="Output directory", default="output")

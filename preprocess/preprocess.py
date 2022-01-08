@@ -1,15 +1,15 @@
 import re
 import numpy as np
 from Bio import SeqIO
+from tensorflow.keras.utils import to_categorical
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+
 
 MINIMUM_LENGTH = 200  # Minimum sequence length to determine as lncRNA
 MAXIMUM_LENGTH = 3000  # Maximum length for the CNN model
 KMER_SIZE = 5  # Set K-mer Size
 KMER_WORDS = "atcgn"  # Set K-mer words
 MODE_OHE = True
-
-a = [1, 2, 3]
 
 
 def string_to_array(string):
@@ -125,34 +125,6 @@ def seq_to_array(
         encode_seq.append(pad_seq)
         seq_names.append(seq_record.name)
         all_seq_len.append(seq_len)
-
-        # # filter_seq seq len between min and max
-        # if filter_seq:
-        #     if (seq_len >= min_len) & (seq_len <= max_len):
-        #         # Encode the sequence with one hot encode
-        #         ohe_tmp = one_hot_encoder(string_to_array(str(seq_record.seq)))
-
-        #         # The length of sequnce that have to fill with 0
-        #         # Pad til seq length is eqaul to max_len
-        #         pad_len = max_len - ohe_tmp.shape[0]
-
-        #         pad_seq = np.pad(
-        #             ohe_tmp, ((0, pad_len), (0, 0)), mode="constant", constant_values=0
-        #         )
-
-        #         # Append to stored list
-        #         encode_seq.append(pad_seq)
-        #         seq_names.append(seq_record.name)
-        #     else:
-        #         rem_seq.append(seq_record)
-
-        # elif seq_len >= min_len:
-        #     # Encode the sequence with one hot encode
-        #     ohe_tmp = one_hot_encoder(string_to_array(str(seq_record.seq)))
-        #     ohe_tmp = ohe_tmp[:max_len]
-        #     encode_seq.append(ohe_tmp)
-        #     seq_names.append(seq_record.name)
-
         count += 1
 
     print("     Sequences Length:", count)
@@ -168,3 +140,29 @@ def seq_to_array(
     encode_seq = np.array(encode_seq)
     print("Done\n")
     return encode_seq, seq_names, all_seq_len
+
+
+def get_train_data(
+    lncRNA_path, pcts_path, min_len=MINIMUM_LENGTH, max_len=MAXIMUM_LENGTH
+):
+    """Return both data and its label that ready to train in Keras
+    """
+
+    # Encode raw data by using one hot encode
+    x_val_lncRNA, _, _ = seq_to_array(
+        lncRNA_path, min_len=min_len, max_len=max_len
+    )  # Encode lncRNA
+    x_val_pcts, _, _ = seq_to_array(
+        pcts_path, min_len=min_len, max_len=max_len
+    )  # Encode Pcts
+
+    # Combine lncRNA and Pcts
+    x_val = np.vstack((x_val_lncRNA, x_val_pcts))
+
+    # Get labels of lncRNA and Pcts
+    y_val = list(np.repeat(1, len(x_val_lncRNA))) + list(np.repeat(0, len(x_val_pcts)))
+
+    # Convert to categorical type for being input format in Keras
+    y_val = to_categorical(y_val)
+
+    return x_val, y_val

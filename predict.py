@@ -13,6 +13,9 @@ def predict(args, threshold=0.5):
 
     directory = args.output
     input_file = args.input
+    min_len = args.min_len
+    max_len = args.max_len
+
     if args.force:
         filter_seq = False
     else:
@@ -22,7 +25,11 @@ def predict(args, threshold=0.5):
         os.makedirs(directory)
 
     seq, seq_names, _ = seq_to_array(
-        input_file, outdir=directory, filter_seq=filter_seq
+        input_file,
+        outdir=directory,
+        filter_seq=filter_seq,
+        min_len=min_len,
+        max_len=max_len,
     )
     print("Loading Model")
     if args.model:
@@ -66,6 +73,19 @@ if __name__ == "__main__":
         const=False,
         choices=[True, False],
     )
+    parser.add_argument(
+        "--min_len",
+        help="Minimum of intput sequences length to predict",
+        default=200,
+        type=int,
+    )
+    parser.add_argument(
+        "--max_len",
+        help="Maximum of input sequences length to predict",
+        default=3000,
+        type=int,
+    )
+
     args = parser.parse_args()
 
     predict(args)
