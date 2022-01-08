@@ -55,17 +55,18 @@ if __name__ == "__main__":
     tf.compat.v1.disable_v2_behavior()
 
     parser = argparse.ArgumentParser(
-        description="Predict sequences from a input FASTA file"
+        description="Predict sequences from a input FASTA file",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("-i", "--input", help="Input FASTA file", required=True)
-    parser.add_argument("-o", "--output", help="Output directory", default="output")
-    parser.add_argument("-m", "--model", help="Model file")
+    parser.add_argument("-i", "--input", help="input FASTA file.", required=True)
+    parser.add_argument("-o", "--output", help="output directory.", default="output")
+    parser.add_argument("-m", "--model", help="path to the model file.")
     parser.add_argument(
         "-f",
         "--force",
         help="Force to predict when the input sequences"
         " exceed the maximum length; otherwise, the model"
-        "will generate the remaining file.",
+        " will generate the remaining file.",
         # action="store_true",
         nargs="?",
         type=bool,
@@ -75,13 +76,13 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--min_len",
-        help="Minimum of intput sequences length to predict",
+        help="the minimum of intput sequences length to predict",
         default=200,
         type=int,
     )
     parser.add_argument(
         "--max_len",
-        help="Maximum of input sequences length to predict",
+        help="the maximum of input sequences length to predict",
         default=3000,
         type=int,
     )

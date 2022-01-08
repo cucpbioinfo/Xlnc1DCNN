@@ -25,15 +25,9 @@ from tensorflow.keras.constraints import max_norm
 from tensorflow.keras.callbacks import Callback, ModelCheckpoint
 from tensorflow.keras import backend as Kd
 
-MINIMUM_LENGTH = 200  # Minimum sequence length to determine as lncRNA
-MAXIMUM_LENGTH = 3000  # Maximum length for CNN model
-KMER_SIZE = 5  # Set K-mer Size
-KMER_WORDS = "atcgn"  # Set K-mer words
-MODE_OHE = True
-
 
 def create_model(
-    kernel_size, stride_size, filter_size, epochs=120, lrate=0.01, momentum=0.9
+    kernel_size, stride_size, filter_size, max_len, epochs=120, lrate=0.01, momentum=0.9
 ):
     model = Sequential()
     model.add(
@@ -41,7 +35,7 @@ def create_model(
             filter_size,
             kernel_size,
             strides=stride_size,
-            input_shape=(MAXIMUM_LENGTH, 4),
+            input_shape=(max_len, 4),
             padding="same",
             activation="relu",
             kernel_constraint=max_norm(3),
@@ -120,7 +114,9 @@ def train(args):
         savepath, monitor="val_acc", verbose=1, save_best_only=True, mode="max"
     )
 
-    model = create_model(57, 1, 120, epochs=epochs, lrate=lrate, momentum=momentum)
+    model = create_model(
+        57, 1, 120, max_len=max_len, epochs=epochs, lrate=lrate, momentum=momentum
+    )
 
     model.fit(
         X_train,
@@ -136,7 +132,10 @@ if __name__ == "__main__":
     tf.get_logger().setLevel("ERROR")
     tf.compat.v1.disable_v2_behavior()
 
-    parser = argparse.ArgumentParser(description="Train model from a input FASTA file")
+    parser = argparse.ArgumentParser(
+        description="Train model from a input FASTA file",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument("coding_file", help="input FASTA file of coding transcripts.")
     parser.add_argument(
         "noncoding_file", help="input FASTA file of noncoding transcripts."
@@ -153,13 +152,13 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--min_len",
-        help="Minimum of input sequences length to be trained.",
+        help="the minimum of input sequences length to be trained.",
         default=200,
         type=int,
     )
     parser.add_argument(
         "--max_len",
-        help="Maximum of input sequences length to be trained.",
+        help="the maximum of input sequences length to be trained.",
         default=3000,
         type=int,
     )
