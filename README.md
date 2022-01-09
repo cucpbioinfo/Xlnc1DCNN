@@ -7,18 +7,25 @@
 ---
 ## Installation
 
-We suggest you install this package by using an anaconda environment to install the required package and its dependencies easily.
+We suggest you to install this package by using an anaconda environment to install the required packages and their dependencies easily. *(test with CentOS 7 and Window 10*)
 
 **Steps**
 1. Create an enviroment using anaconda.
 ```
-conda create -n Xlnc1DCNN python=3.7.5
+conda create -n Xlnc1DCNN python=3.7.5 --y
 conda activate Xlnc1DCNN
 ```
-2. Install Tensorflow. If your machine has a GPU card, we suggest you install tensorflow through anaconda to run each module through a GPU card.
+2. Install Tensorflow. 
+- If your machine has a GPU card, we suggest you install Tensorflow through anaconda to let anaconda install all dependency packages. Then you can run each module through a GPU card.
 ```
 conda install -c anaconda tensorflow-gpu=2.1.0 --y
 ```
+- Otherwise,
+
+```
+pip install tensorflow==2.1.0
+```
+
 3. Install the remaining required packages.
 
 ```
@@ -70,7 +77,7 @@ sequences will be generate into a `remaining_<file_name>.fasta` file.
 python predict.py -i dataset/example/sample.fasta
 ```
 
-Force the model to predict all length of sequence.
+Or, you can force the model to predict all length of sequences by using this command.
 ```
 python predict.py -i dataset/example/sample.fasta -f True
 ```
