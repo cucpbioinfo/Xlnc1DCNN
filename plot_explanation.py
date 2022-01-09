@@ -71,7 +71,9 @@ def plot(args):
         if not os.path.exists(file_path):
             os.makedirs(file_path)
         if "|" in name:
-            save_path = file_path + f"{name.replace('|', '_')}.png"
+            save_path = file_path + f"{name.split('|')[0]}.png".replace(
+                "-", ""
+            ).replace(":", "")
         else:
             save_path = file_path + f"{name}.png"
         shap_values = exp_model.shap_values(s.reshape(1, 3000, 4))[1][0]
@@ -106,6 +108,8 @@ if __name__ == "__main__":
         help="Background distribution to plot explanation results",
         default="background_350",
         choices=[
+            "background_10",
+            "background_20",
             "background_50",
             "background_100",
             "background_200",

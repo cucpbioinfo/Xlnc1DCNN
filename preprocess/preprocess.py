@@ -58,7 +58,7 @@ def seq_to_array(
     min_len : int, Default 200 (Select only long non coding RNA)
         The minimum length of raw file to be encoded.
 
-    max_len : int, Default 2500 (Maximum length of selected sequence)
+    max_len : int, Default 3000 (Maximum length of selected sequence)
         The maximum length of raw file to be encoded.
 
     filter_seq_seq : bool, optional
