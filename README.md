@@ -2,9 +2,34 @@
 - [Usage](#Usage)
   - [predict.py](#predict.py)
   - [plot_explanation.py](#plot_explanation.py)
+  - [train.py](#train.py)
 
 ---
 ## Installation
+
+We suggest you install this package by using an anaconda environment to install the required package and its dependencies easily.
+
+**Steps**
+1. Create an enviroment using anaconda.
+```
+conda create -n Xlnc1DCNN python=3.7.5
+conda activate Xlnc1DCNN
+```
+2. Install Tensorflow. If your machine has a GPU card, we suggest you install tensorflow through anaconda to run each module through a GPU card.
+```
+conda install -c anaconda tensorflow-gpu=2.1.0 --y
+```
+3. Install the remaining required packages.
+
+```
+pip install -r requirement.txt
+```
+
+4. Test.
+```
+python predict.py -i dataset/example/sample.fasta
+```
+
 
 ## Usage
 
@@ -22,28 +47,37 @@ Predict sequences from a input FASTA file
 optional arguments:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
-                        Input FASTA file
+                        input FASTA file. (default: None)
   -o OUTPUT, --output OUTPUT
-                        Output directory
+                        output directory. (default: output)
   -m MODEL, --model MODEL
-                        Model file
+                        path to the model file. (default: None)
   -f [{True,False}], --force [{True,False}]
                         Force to predict when the input sequences exceed the
                         maximum length; otherwise, the model will generate the
-                        remaining file.
-  --min_len MIN_LEN     Minimum of intput sequences length to predict
-  --max_len MAX_LEN     Maximum of input sequences length to predict
+                        remaining file. (default: False)
+  --min_len MIN_LEN     the minimum of intput sequences length to predict
+                        (default: 200)
+  --max_len MAX_LEN     the maximum of input sequences length to predict
+                        (default: 3000)
 ```
 
 **Example**
 
+The model will predict only sequences that their length are <= `max_len`. The remaining 
+sequences will be generate into a `remaining_<file_name>.fasta` file.
 ```
 python predict.py -i dataset/example/sample.fasta
 ```
 
+Force the model to predict all length of sequence.
+```
+python predict.py -i dataset/example/sample.fasta -f True
+```
+
 ### plot_explanation.py 
 
-`plot_explanation.py ` is the command for ploting explanation results of 
+`plot_explanation.py` is the command for ploting explanation results of 
 the input sequences from the model.
 ```
 usage: plot_explanation.py [-h] -i INPUT [-o OUTPUT] [-m MODEL]
@@ -82,6 +116,11 @@ optional arguments:
 ```
 python plot_explanation.py  -i dataset/example/sample.fasta
 ```
+If your machine can't run the above command, we suggest you to reducte the background samples size.
+
+```
+python plot_explanation.py  -i dataset/example/sample.fasta -b background_50
+```
 
 ### train.py
 
@@ -116,7 +155,7 @@ optional arguments:
 
 **Example**
 
-Train a new classifer model without any settings.
+Train a new classifer model by using default settings.
 ```
 python train.py dataset/human/training_set/pct_train.fa dataset/human/training_set/lncrna_train.fa 
 ```

@@ -41,7 +41,12 @@ def one_hot_encoder(array, encode_seq=["a", "c", "g", "t", "z"], mode=MODE_OHE):
 
 
 def seq_to_array(
-    fa_file, min_len=MINIMUM_LENGTH, max_len=MAXIMUM_LENGTH, filter_seq=True, outdir=""
+    fa_file,
+    min_len=MINIMUM_LENGTH,
+    max_len=MAXIMUM_LENGTH,
+    filter_seq=True,
+    outdir="output",
+    generate_output=True,
 ):
     """Import raw file of sequences then Return to one hot encode format.
 
@@ -130,8 +135,10 @@ def seq_to_array(
     print("     Sequences Length:", count)
     print("     Selected Length:", len(encode_seq))
 
-    if low_count > 0 or (high_count > 0 and not filter_seq):
-        with open(f"{outdir}/remaining.fasta", "w") as output_handle:
+    if low_count > 0 or (high_count > 0 and not filter_seq) and generate_output:
+        with open(
+            f"{outdir}/remaining_{fa_file.split('/')[-1]}.fasta", "w"
+        ) as output_handle:
             SeqIO.write(rem_seq, output_handle, "fasta")
 
     # Print the result
