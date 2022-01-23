@@ -55,7 +55,7 @@ if __name__ == "__main__":
     tf.compat.v1.disable_v2_behavior()
 
     parser = argparse.ArgumentParser(
-        description="Predict sequences from a input FASTA file",
+        description="Predict sequences from an input FASTA file.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument("-i", "--input", help="input FASTA file.", required=True)

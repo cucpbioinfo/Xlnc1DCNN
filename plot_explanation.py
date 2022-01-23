@@ -96,16 +96,16 @@ if __name__ == "__main__":
     tf.compat.v1.disable_v2_behavior()
 
     parser = argparse.ArgumentParser(
-        description="Plot explanation results from a input FASTA file",
+        description="Plot explanation results from an input FASTA file",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("-i", "--input", help="Input FASTA file", required=True)
-    parser.add_argument("-o", "--output", help="Output directory", default="output")
-    parser.add_argument("-m", "--model", help="Model file")
+    parser.add_argument("-i", "--input", help="input FASTA file", required=True)
+    parser.add_argument("-o", "--output", help="output directory", default="output")
+    parser.add_argument("-m", "--model", help="model file")
     parser.add_argument(
         "-b",
         "--background",
-        help="Background distribution to plot explanation results",
+        help="background distribution to plot explanation results",
         default="background_350",
         choices=[
             "background_10",
@@ -121,15 +121,15 @@ if __name__ == "__main__":
     parser.add_argument(
         "-ub",
         "--user_background",
-        help="Path to user's background distribution to plot explanation results",
+        help="path to user's background distribution to plot explanation results",
     )
     parser.add_argument(
-        "-dpi", "--dpi", help="DPI of output images", type=int, default=250
+        "-dpi", "--dpi", help="dpi of output images", type=int, default=250
     )
     parser.add_argument(
         "-f",
         "--force",
-        help="Force to plot when the input sequences exceed the maximum length.",
+        help="force to plot when the input sequences exceed the maximum length.",
         # action="store_true",
         nargs="?",
         type=bool,
@@ -139,7 +139,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--min_len",
-        help="the minimum of intput sequences length to plot",
+        help="the minimum of input sequences length to plot",
         default=200,
         type=int,
     )
