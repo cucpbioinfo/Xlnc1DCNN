@@ -70,7 +70,7 @@ def plot_shap_amino(
 
             if count == 0:
                 axs.set_title(
-                    f"{seq_name}\n Amino Sequnces length: {seq_len}\n\n Frame: {i+1} \n{max_bp*j} - {max_bp*(j+1)}"
+                    f"{seq_name}\n Amino acid sequence length: {seq_len}\n\n Frame: {i+1} \n{max_bp*j} - {max_bp*(j+1)}"
                 )
             else:
                 axs.set_title(f"Frame: {i+1} \n{max_bp*j} - {max_bp*(j+1)}")
