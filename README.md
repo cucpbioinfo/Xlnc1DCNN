@@ -9,6 +9,9 @@
 
 We suggest you install `Xlnc1DCNN` by using an anaconda environment for installing the required packages and their dependencies easily. *(tested with CentOS 7 and Window 10*)
 
+**Prerequisite**
+- Download the model file: https://drive.google.com/drive/folders/1QICscoia-QC2lBC_m7pG70LJclZTUBoT
+
 **Steps**
 1. Create an environment using Anaconda.
 ```
@@ -44,10 +47,6 @@ python predict.py -i dataset/example/sample.fasta
 
 `predict.py` is the command to predict a input FASTA file.
 
-
-```
-
-```
 
 **Example**
 
